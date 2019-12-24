@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+    {% block 'content' %}
+    <div class='container-fluid bodyFluid'>
+    <div class="row bodyrow">
+        {% include 'categories.html' %}
+        <div class="col-md-9">
+
+            {% for single_goods in goods %}
+
+            <div class="card" style="width: 18rem;">
+            <img class='goodsimg' src="{{single_goods.photo|thumbnail_url:'avatar'}}" class="card-img-top" alt="...">
+                {% comment %} <img class='goodsimg' src="{{single_goods.pictures}}" class="card-img-top" alt="..."> {% endcomment %}
+                <div class="card-body">
+                    <h5 class="card-title">{{single_goods.name}}</h5>
+                    <p class="card-text">{{single_goods.description}}</p>
+                   
+                    <p class="card-text">Price: {{single_goods.price}}</p>
+                    <p class="card-text">DeadLine: {{single_goods.auctionDeadLine}}</p>
+                     <a href="{% url 'goods:detail' single_goods.pk %}" class="btn btn-primary btn-block">Daha etrafli</a>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+        </div>
+            
+    </div>
+    </div>
+    {% endblock 'content' %}
+    
+        

@@ -1,0 +1,114 @@
+
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
+    {% block content %}
+    <div class='container-fluid'>
+        <div class="row">
+            <div class="col-md-12 path">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'goods:empty' %}">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Data</li>
+                </ol>
+                </nav>
+            </div>
+        </div>
+    <div class="row content">
+        <div class="col-md-6">
+               
+
+            <img src="{{goods.photo|thumbnail_url:'avatar_info'}}" width="100%" height="400" alt="">
+        </div>
+        <div class="col-md-6">
+            <h2>{{goods.name}}</h2>
+            <p>Hazırkı qiyməti : {{goods.price}} $</p>
+
+            <form action="{% url 'goods:raise' goods.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name='price' placeholder="təklif et">
+                <input type="submit" value='Teklif et'>
+            </form>
+
+            <p>Size: {{goods.size}}</p>
+            <p>Color: {{goods.color}}</p>
+            <p>Description: {{goods.description}}</p>
+            <p>Owner: {{goods.owner.username}}</p>
+            <p>Category: {{goods.category.name}}</p>
+            <p>DeadLine: <span id='Deadline'> {{deadline}}</span></p>
+
+            <p>Countdown: 
+                <span id='countdown'></span>
+            </p>
+
+            {% comment %} <p>Db vaxti: {{dir(dbtime)}}</p> {% endcomment %}
+        </div>
+    </div>
+    </div>
+   
+    <!-- <div id="getting-started"></div> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+         {% comment %} <script src="{% static 'assets/js/timer.js' %}"></script> {% endcomment %}
+    
+        <script type="text/javascript">
+       
+        {% comment %} $('#getting-started').countdown('2020/01/01', function(event) {
+            $(this).html(event.strftime('%w weeks %d days %H:%M:%S'));
+        }); {% endcomment %}
+
+
+        //COUNT DOWN begin
+   {% comment %} var countDownDate=new Date('30 OCT 2019 00:00:00 GMT').getTime();
+   console.log(countDownDate) {% endcomment %}
+        {% comment %} var d = Date.parse("30 OCT 2019 00:00:00 GMT"); {% endcomment %}
+        var d = Date.parse("{{goods.auctionDeadLine|date:'d m Y h:m:s'}}");
+        var x = setInterval(function() {
+        var now = new Date().getTime();
+                
+        // Find the distance between now and the count down date    
+        //var distance = countDownDate - now;
+        // '30 OCT 2019 00:00:00 GMT'
+        // 1571844124596
+        
+        var countDownDate=new Date('{{deadline}}').getTime();       
+        var distance=countDownDate-now
+        console.log(distance)
+        // console.log(distance)
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+        // Output the result in an element with id="demo"
+        if (distance < 0) {
+          clearInterval(x);
+           document.getElementById("countdown").innerHTML ='Time over'
+        }
+        else if(distance<60000)
+            document.getElementById("countdown").innerHTML =seconds+' s'
+
+        else if(distance<3600000)
+            document.getElementById("countdown").innerHTML =minutes+' m '+seconds+' s'
+
+        else if(distance<86400000)
+            document.getElementById("countdown").innerHTML =hours+' h '+minutes+' m '+seconds+' s'   
+
+        else
+            document.getElementById("countdown").innerHTML =days+' d '+hours+' h '+minutes+' m '+seconds+' s'
+        // If the count down is over, write some text 
+        
+      }, 1)
+       // Get today's date and time
+
+       
+
+
+    {% comment %} timedate = $('#timecatcher').attr('data-time')
+    var countDownDate = timedate {% endcomment %}
+
+        </script>
+    {% endblock content %}
+    

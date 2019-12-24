@@ -1,0 +1,121 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid p-0 m-0">
+      {% include 'navbar.html' %} 
+        <!-- SLIDE -->
+       <div id="carouselExampleControls"  class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'image/main_slide/image_1.jpg' %}" class="d-block w-100" >
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'image/main_slide/image_2.jpg' %}" class="d-block w-100" >
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'image/main_slide/image_3.jpg' %}" class="d-block w-100" >
+                </div>
+            </div>
+          <!-- SEARCH BURADA -->
+            <div class="row" id="title" >
+                <div  class="col-md-12"> 
+                        <h2 class="slide_h2">MADE WITH LOVE AND  PASSION</h2>
+                        <p class="slide_p">MAKE YOUR BID AND GET THE BEST HANDMADE GOODS EVER</p>
+                        <button class="get_started">GET STARTED</button>
+                </div>
+            </div>
+       </div>  
+    </div>
+
+<div class='container'>
+
+<!-- ADRESS PHONE MAIL -->
+
+    <div class="row justify-content-center container_info">
+        <div class="col-md-10">   
+            <div class="row">
+                <div class="col-md-4 contact_p">
+                        <!-- <i class="fa fa-map-marker-alt"></i>        -->
+                    <!-- <i class="fa fa-map-marker-alt"></i> iconlari tap duzelt -->
+                    <p><i class="fa fa-map-marker"></i>&nbsp &nbsp  89 Ataturk avenue, Baku</p>
+                </div>
+            
+        
+                <div class="col-md-4 contact_p">
+                    <p><i class="fa fa-phone"></i>&nbsp &nbsp+994 70 930 94 36 </p>
+                </div>
+            
+            
+                <div class="col-md-4 contact_p">
+                    <p><i class="fa fa-envelope"></i>&nbsp &nbspmadewithlove@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+       
+    <!-- 
+    CONTACT FORM -->
+    
+    <div class="row justify-content-center getintouchrow">
+        
+        <div class="col-md-10 box">
+            <!-- <div class=""> -->
+                <form action='{% url "users:send-message" %}' id="contactForm" method='POST'>
+                {% csrf_token %}
+                    <h2 id="getin">Get in touch with us</h2>
+                    <input type="text" name="name" value="{{user.first_name}}" class="form-control inp" placeholder="Enter Your Name" id="name" required>
+                    <input type="email" name="email" value="{{user.email}}" id="email" class="form-control inp" placeholder="Enter Your Email" required>
+                    <textarea name="message" id="message" class="form-control inp" placeholder="Message" rows="4" required></textarea>
+                    <input type="submit" id='send_message_button' class="form-control-submit" value="SEND MESSAGE">
+                    <div id="result"></div>
+                </form>
+            <!-- </div> -->
+        </div>
+     
+    </div>
+    
+    {% include 'footer.html' %} 
+
+  </div> <!-- SLIDE and title -->
+ 
+   {% endblock content %}   
+   {% block scripts %}
+   <script>
+    // var token = '{{csrf_token}}';
+
+    $("#contactForm").submit(function (e) {
+        e.preventDefault()
+        var form = $(this);
+        var data=form.serialize()
+        // console.log(data)
+        $.ajax({
+            url: $(form).attr("action"),
+            type : $(form).attr("method"),
+            data: $(form).serialize(),
+            beforeSend: function() {
+                $(form).find(":input").attr("disabled", true);
+                setTimeout(function(){
+                    $(form).find(":input").attr("disabled", false);
+                    $('#result').html('')
+                },3000
+                )
+            },
+            success: function (data) {
+                $('#result').append('<div class="alert alert-success" role="alert">Mesajınız göndərildi...</div>')
+                
+            },
+            error: function (request, status, error) {
+                $('#result').append('<div class="alert alert-danger" role="alert">Mesajınız göndərilmədi...</div>')
+                
+            }
+        });
+    });
+  </script>
+   {% endblock scripts %}
+
+    
+
+
+   

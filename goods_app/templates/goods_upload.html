@@ -1,0 +1,28 @@
+
+{% extends 'base.html' %}
+    {% block content %}
+    <div class='container'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <h2>Your info</h2>
+                    <hr>
+                    {{form.as_p}}
+                    
+                    <h2>Good info</h2>
+                    <hr>
+                    {{my_form.as_p}}
+                    
+
+                    <input type="submit" class='btn btn-block btn-info' value="Upload">
+                </form>
+            
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    
+      {% endblock content %}

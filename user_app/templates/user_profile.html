@@ -1,0 +1,72 @@
+ {% extends 'base.html' %}
+ {% load static %}
+
+{% block content %}
+    <div class="container-fluid p-0">
+    {% include 'navbar.html' %}
+    </div>
+   <div class="checkout">
+        <div class="container">
+            
+           <div class='row'>
+               <div class="col-md-12">
+                    <h2>Your profile</h2></div>
+                <div class="col-md-6"> 
+                    <!-- checkout-inner start-->
+                    <div class="checkout-inner">
+                        <form action="" method="POST">
+                            <div class="checkout-form-steps">
+                                <h4>Your info</h4>
+                                <p id='budget'></p>
+                              
+                                        {% csrf_token %}
+                                    <input type="text" name="username" class="textfield" placeholder="Username" value='{{user.username}}' required ="">
+                                    <input type="text" name='first_name' class="textfield" placeholder="First name" value='{{user.first_name}}' required ="">
+                                    <input type="text" name="last_name" class="textfield" placeholder="Last Name" value='{{user.last_name}}' required ="">
+                                    <input type="email" name='email' class="textfield" value='{{user.email}}' placeholder="Email">
+                                    <!-- <input type="text" name='phone' class="textfield" placeholder="Your Phone No."> -->
+                                    <input type="submit" class="submitorder-button" value="Update"> 
+        
+                                
+                            </div>
+                        </form>
+                         <!-- checkout-inner end-->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- order list start -->
+                    <div class="orderlist">
+                        <h3 id='handmade'> Goods details</h3>
+                        <form action="{% url 'goods:upload' %}" method="POST" enctype="multipart/form-data" >
+                            {% csrf_token %}
+                            <input type="text" name='name' class="textfield" placeholder="Good name" required ="">
+                            <input type="number" name='price' class="textfield" placeholder="Price">
+                            <input type="file" name='photo'>
+                            <textarea name="description" id="upload-description" class="textfield" placeholder="Description" cols="30" rows="5"></textarea>
+                            Auction deadline: <input name='auctionDeadLine' type="date">
+                            <input type="submit" class="submitorder-button" value="Upload">
+                        </form>
+                    </div>
+                    <!-- order list end -->
+                </div>
+           </div>
+        </div>
+        {% include 'footer.html' %}
+    </div>
+    <!-- The content of your page would go here. -->
+ {% comment %} <div class="card">
+    <div class="card-header">
+        <h5 class="card-title">User Details #{{book.id}}</h5>
+    </div>
+    <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">User Name</dt>
+      <dd class="col-sm-9">{{ user.name }}</dd>
+    </dl>
+
+    </div>
+</div> {% endcomment %}
+{% comment %} <a href='user/{{user.id}}/'>Link</a> {% endcomment %}
+{% comment %} {% include footer.html %} {% endcomment %}
+    {% endblock content %}
+    

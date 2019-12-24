@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+    {% block content %}
+    <div class='container-fluid bodyFluid'>
+    <div class="row bodyrow">
+            <div class="col-md-12">
+                {% for single_goods in goods %}
+
+                <div class="card" style="width: 18rem;">
+                <img class='goodsimg' src="{{single_goods.photo|thumbnail_url:'avatar'}}" class="card-img-top" alt="...">
+                    {% comment %} <img class='goodsimg' src="media/{{single_goods.photo}}" class="card-img-top" alt="..."> {% endcomment %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{single_goods.name}}</h5>
+                        <p class="card-text">{{single_goods.description}}</p>
+                    
+                        <p class="card-text">Price: {{single_goods.price}}</p>
+                        <p class="card-text">DeadLine: {{single_goods.auctionDeadLine}}</p>
+                        <a href="{% url 'goods:detail' single_goods.pk %}" class="btn btn-primary btn-block">Daha etrafli</a>
+                    </div>
+                </div>
+                {% endfor %} 
+            </div>
+        
+            <div id="container">
+                {% if is_paginated %}
+                    <div class="pagination dark page_center">
+
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1" class="page dark">&laquo; first</a>
+                            <a href="?page={{page_obj.previous_page_number}}" class="page dark">&lsaquo; previous</a>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num  %}
+                                    <a href="?page={{ num }}" class="page dark active">{{ num }}</a>
+
+                                {% else %}
+                                    <a href="?page={{ num }}" class="page dark">{{ num }}</a>
+                                {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{page_obj.next_page_number}}" class="page dark">next &rsaquo;</a>
+                            <a href="?page={{page_obj.paginator.num_pages}}" class="page dark">last &raquo;</a>
+                        {% endif %}
+                        
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+    </div>
+    </div>
+    {% endblock content %}
+    
+    
+        

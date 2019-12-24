@@ -1,0 +1,35 @@
+<div class="container-fluid">
+		<div class="row" id="header">
+			<!-- header logo -->
+				<div class="col-md-2 header-logo"></div>
+				<!-- space-->
+				<!-- header searchbox -->
+				<div class="col-lg-5 col-md-12 col-sm-12 header-searchbox">
+					<!-- Search form -->
+					<form method="get" action="../" class="form-inline active-cyan-4" id="search-form">
+					  <input required name='word' class="form-control form-control-sm mr-3 w-75" id="search-input" type="text" placeholder="Search"
+					    aria-label="Search">
+						<input type="submit" value="axtar">
+					  <!-- <i class="fas fa-search" type='submit' aria-hidden="true"></i> -->
+					</form>
+				</div>
+				<!-- header menu -->
+				<div class="header-menu">
+					<ul id="menu-ul">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                        <li><a href="{% url 'goods:upload' %}">Upload</a></li>
+                        
+                    {% else %}
+                       <li> <a href="{% url 'accounts:login' %}">Login</a></li>
+                        <li><a href="{% url 'accounts:register' %}">Register</a></li>
+                    {% endif %}
+						<li><a class="{% if request.resolver_match.url_name == 'categories' or request.resolver_match.url_name == 'empty'  %}selected{% endif %}" href="{% url 'goods:empty' %}">Categories</a></li>
+						<li><a href="">Home</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div>
+	</div>

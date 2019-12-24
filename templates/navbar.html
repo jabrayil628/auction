@@ -1,0 +1,140 @@
+ <!--/.Navbar-->
+<div class="row p-0 m-0" >
+<!--/.Navbar-->
+        <div class="col-md-12 p-0 m-0">
+            <nav class="navbar navbar-expand-lg  navbar-light bg-light">
+                <a class="navbar-brand" href="{% url 'goods:goods' %}">MADE WITH LOVE</a>
+                <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarsExample08">
+                <ul class="navbar-nav mainnav">
+                    <li class="nav-item {% if request.resolver_match.url_name == 'goods' %} active{% endif %}">
+                        <a class="nav-link" href="{% url 'goods:goods' %}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'about' %} active{% endif %}">
+                        <a class="nav-link" href="{% url 'goods:about' %}">About</a>
+                        </li>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'empty' %} active{% endif %}">
+                        <a class="nav-link" href="{% url 'goods:empty' %}">Store</a>
+                        </li>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'contact'%} active{% endif %}">
+                        <a class="nav-link " href="{% url 'goods:contact' %}" >Contact</a>
+                        </li>
+                        {% if user.is_authenticated %}       
+                        <li class="nav-item">
+                            <a class="nav-link " href="{% url 'users:logout' %}" >Logout</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link " >{{user.username}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="{% url 'users:profile' %}" >My profile</a>
+                        </li>  
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link " data-toggle="modal" data-target=".bd-example-modal-lg" href="#">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id='login_popup' data-toggle="modal" data-target="#exampleModalCenter" href="#">Log in</a>
+                    </li>
+                   
+                    {% endif %}
+                </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+                <!-- login popup -->
+                <!-- Button trigger modal -->
+      <!-- Modal login-->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form class="modal-content" action="{% url 'users:login' %}" id='loginForm' method="POST">
+                {% csrf_token %}
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">LOGIN</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">             
+                        <div class="row justify-content-center loginpopup">
+                            <div class="col-md-10 login  text-center">
+                            <input class="inputlogin" name='username' type="text" placeholder="Username">
+                            <input class="inputlogin" name='password' type="password" placeholder="Password">
+                            <a href="" class="forget">Forgotten password</a>
+                            <div class="alert alert-danger" role="alert" id="LoginInfo">
+                            
+                            </div>
+                            <button  class="btn  btn-block logbtn"> Login </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+        <!-- modal login end  -->
+   
+        <!-- Signup modal -->
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Sign up</h5>
+                    <button type="button" id='close_icon_signup' class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center loginpopup">
+                        <div class="col-md-10 login  text-center">
+                            <form class="modal-content" action="{% url 'users:register' %}" id='signUpForm' method="POST">
+                                    {% csrf_token %}
+                                <table class="table" id="register_table">
+                                    <tr>
+                                        <td><input class="inputlogin" name='name' type="text" placeholder="Name"></td>
+                                        <td><input class="inputlogin" name='surname' type="text" placeholder="Surname"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input class="inputlogin" name='email' type="email" placeholder="Email"></td>
+                                        <td> 
+                                            <input class="inputlogin" name='username' type="text" placeholder="Username">
+                                        </td>
+                                        </tr>
+                                    <tr>
+                                        <td> <input class="inputlogin" name='password' type="password" placeholder="Password"></td>
+                                        <td><input class="inputlogin" name='password2' type="password" placeholder="Confirm Password"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input class="inputlogin" name='address' type="text" placeholder="Address"></td>
+                                        <td><input class="inputlogin" name='phone' type="text" placeholder="Phone number"></td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td  colspan='2'> 
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">Bütün şərtlərlə razıyam</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td></td> -->
+                                        <td colspan='2'>
+                                            <button type="submit" id="savesubmitbtn" disabled=False  class="btn  logbtn"> Sign up </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Signup modal end-->

@@ -1,0 +1,15 @@
+{% load static %}
+<div class="col-md-3">
+                <ul class="list-group categoryul">
+                    <li class="list-group-item categoryli"> 
+                        <a href="{% url 'goods:empty' %}" type="button" class="btn btn-outline-warning waves-effect btnCategory">All</a>
+                    </li>
+                {% for category in categories %}
+                
+                <li class="list-group-item categoryli"> 
+                    <a href="{% url 'goods:categories' category.pk %}" type="button" class="btn btn-outline-warning waves-effect btnCategory">{{category.name}}</a>
+                </li>
+                
+    {% endfor %} 
+    </ul>
+</div>

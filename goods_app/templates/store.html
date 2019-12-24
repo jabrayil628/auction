@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% block content %}
+  <div class="container-fluid p-0 m-0">
+      {% include 'navbar.html' %} 
+        <!-- SLIDE -->
+      <div id="carouselExampleControls"  class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'image/main_slide/image_1.jpg' %}" class="d-block w-100" >
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'image/main_slide/image_2.jpg' %}" class="d-block w-100" >
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'image/main_slide/image_3.jpg' %}" class="d-block w-100" >
+                </div>
+            </div>
+          <!-- SEARCH BURADA -->
+            <div id="title" class="row">
+
+                <div class="col-md-1"></div>
+                <div  class="col-md-10"> 
+                      <h2 class="slide_h2">Store</h2>
+                      <form action='' method='GET'>
+                        <input id="search" name='word' type="text" placeholder="Search">
+                        {% comment %} <input href="#" type='submit' value='Axtar' class="search_link"> {% endcomment %}
+                        <button id='search_btn' type='submit'><i  class="fa fa-search"></i></button>
+                      
+                      </form>
+                </div>
+                <div class="col-md-1"></div>
+            
+            </div>
+      </div>  
+  </div>
+  <div  class="container">
+    <!-- store -->
+      <div class="row store">
+          <div id="storehead" class="col-md-12"><h3>Store</h3></div>
+              {% for single_goods in goods  %}
+                  <div class="col-md-6 col-lg-4 goods">
+                      <div class="card mx-auto" style="width: 18rem;">
+                            <img src="{{single_goods.photo|thumbnail_url:'avatar'}}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{single_goods.name}}</h5>
+                                <p class="card-text"> {{single_goods.description}}</p>
+                               
+                                <a href="{% url 'goods:detail' single_goods.pk %}" class="btn btn-primary btn-block">Make a bid</a>
+                                <p class="qiymet">$ {{single_goods.price}}</p>
+                            </div>
+                      </div>
+                       
+                  </div>
+              {% endfor %}
+      </div>
+      <div class="row justify-content-center">
+          <div class="col-md-6">
+              {% if is_paginated %}
+                  <div class="pagination dark page_center">
+                      <div class="pag_all">
+                            {% if page_obj.has_previous %}
+                            <a href="?page=1" class="page dark">&laquo; first</a>
+                            <a href="?page={{page_obj.previous_page_number}}" class="page dark">&lsaquo; previous</a>
+                            {% endif %}
+    
+                            {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num  %}
+                                <a href="?page={{ num }}" class="page dark active">{{ num }}</a>
+    
+                            {% else %}
+                                <a href="?page={{ num }}" class="page dark">{{ num }}</a>
+                            {% endif %}
+                            {% endfor %}
+    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{page_obj.next_page_number}}" class="page dark">next &rsaquo;</a>
+                                <a href="?page={{page_obj.paginator.num_pages}}" class="page dark">last &raquo;</a>
+                            {% endif %}
+                      </div>
+                      
+                 
+                  </div>
+                {% endif %}
+          </div>
+      </div>
+  </div>
+  <!-- footer -->
+  <div class="container-fluid">
+    {% include 'footer.html' %}
+  </div>
+{% endblock content %}
+ {% block scripts %}
+<script>
+     $('#search').change(function() {
+        $( "#search_btn" ).trigger( "click" );
+});
+</script>
+ {% endblock scripts %}
+

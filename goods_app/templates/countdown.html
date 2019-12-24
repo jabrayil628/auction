@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p id="countdown3"></p>
+<button id="btnId2">basla</button>
+
+
+
+    <script>
+    function secondExample() {
+      var timing3 = setInterval(
+        function () {
+          var yourDateToGo3=1644444444444
+          var currentDate3 = new Date().getTime();
+          var timeLeft3 = yourDateToGo3 - currentDate3;
+          var days3 = Math.floor(timeLeft3 / (1000 * 60 * 60 * 24));
+          if (days3 < 10) days3 = "0" + days3;
+          var hours3 = Math.floor((timeLeft3 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          if (hours3 < 10) hours3 = "0" + hours3;
+          var minutes3 = Math.floor((timeLeft3 % (1000 * 60 * 60)) / (1000 * 60));
+          if (minutes3 < 10) minutes3 = "0" + minutes3;
+          var seconds3 = Math.floor((timeLeft3 % (1000 * 60)) / 1000);
+          if (seconds3 < 10) seconds3 = "0" + seconds3;
+
+          document.getElementById("countdown3").innerHTML = days3 + "d " + hours3 + "h " + minutes3 + "m " + seconds3 + "s";
+            if (timeLeft3 <= 0) {
+              clearInterval(timing3);
+              document.getElementById("countdown3").innerHTML = "It's over";
+
+            }
+          }, 1000);
+
+    }
+
+    document.getElementById('btnId2').addEventListener('click', secondExample);</script>
+</body>
+</html>

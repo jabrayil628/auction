@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Store</title>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/css/mainstyle.css' %}">
+</head>
+<body>
+
+{% block content %}
+{% endblock content %}
+
+{% comment %} <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> {% endcomment %}
+ <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ {% block scripts %}
+ {% endblock scripts %}
+<script>
+        //sertlerle raziliq
+    $('#exampleCheck1').click(function(){
+        $("#savesubmitbtn").prop('disabled',!$(this).prop('checked'))
+          
+    })
+    //form send
+    $("#signUpForm").submit(function(e){
+        e.preventDefault()
+        var form = $(this);
+        // console.log(data)
+         $.ajax({
+            url: $(form).attr("action"),
+            type : $(form).attr("method"),
+            data: $(form).serialize(),
+            success: function (data) {
+                $('#close_icon_signup').trigger('click')
+                $('#login_popup').trigger('click')
+                
+            },
+            error: function (request, status, error) {
+                var errorMessage = request.status + ': ' + request.statusText
+                
+                console.log(errorMessage)
+                // $('#result').append('<div class="alert alert-danger" role="alert">Mesajınız göndərilmədi...</div>')
+            }
+        });
+    })
+    //login Form
+    $("#loginForm").submit(function(e){
+        e.preventDefault()
+        var form2 = $(this);
+        // console.log(data)
+         $.ajax({
+            url: $(form2).attr("action"),
+            type : $(form2).attr("method"),
+            data: $(form2).serialize(),
+            success: function (data) {
+                if(data.is_error){
+                    $('#LoginInfo').css('display','inline-block')
+                    $('#LoginInfo').html(data.is_error)
+                    setTimeout(function(){
+                        $('#LoginInfo').hide()
+                    },3000)
+                }
+                else if(data.is_success)
+                {
+                    window.location = "http://127.0.0.1:8000/"
+                }
+                // alert(data.is_error)
+                // alert(data.is_success)
+                
+                //alert('oldu'+data.info)
+            },
+            error: function (request, status, error) {
+                var errorMessage2 = request.status + ': ' + request.statusText
+                
+                alert(errorMessage2)
+                // $('#result').append('<div class="alert alert-danger" role="alert">Mesajınız göndərilmədi...</div>')
+                
+            }
+        });
+    })
+    $('#raise_form').submit(function(e){
+        e.preventDefault()
+        var form3 = $(this);
+        $.ajax({
+            url: $(form3).attr("action"),
+            type : $(form3).attr("method"),
+            data: $(form3).serialize(),
+            success: function (data) {
+                $('#raise_info').css('display','inline-block')
+                if (data.price){
+                    $('#raise_info').removeClass('alert-danger')
+                    $('.detprice').html(' USD $ '+data.price)
+                    $('#raise_info').addClass('alert-success')
+                    
+                    $('#raise_info').html('Təklif verildi')
+                }
+                else if(data.error){
+                    $('#raise_info').removeClass('alert-success')
+                    $('#raise_info').addClass('alert-danger')
+                    $('#raise_info').html(data.error)
+                }
+                
+                // setTimeout(function(){
+                //     $('#raise_info').hide()
+                // },1000)
+            },
+            error: function (request, status, error) {
+                $('#raise_info').addClass('alert-danger')
+                $('#raise_info').css('display','inline-block')
+                $('#raise_info').html('Səhv baş verdi')
+                
+                // $('#result').append('<div class="alert alert-danger" role="alert">Mesajınız göndərilmədi...</div>')
+                
+            }
+        });
+    })
+</script>
+</body>
+</html>
